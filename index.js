@@ -6,7 +6,7 @@ function agregarProyecto(nombre, fechaLimite, tareas) {
     proyectos.push({
         nombre,
         fechaLimite,
-        tareas
+        tareas: tareas || 'Sin tareas definidas'
     });
 }
 
@@ -16,16 +16,16 @@ function obtenerProyectos() {
     }
 
     let mensaje = 'Tus proyectos actuales son: ';
-    proyectos.forEach(proyecto => {
-        mensaje += `${proyecto.nombre} con fecha límite el ${proyecto.fechaLimite}. `;
+    proyectos.forEach((proyecto, index) => {
+        mensaje += `${index + 1}. ${proyecto.nombre} con fecha límite el ${proyecto.fechaLimite}. `;
     });
     return mensaje;
 }
 
 const AgregarProyectoIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AgregarProyectoIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'AgregarProyectoIntent';
     },
     handle(handlerInput) {
         const { nombreProyecto, fechaLimite } = handlerInput.requestEnvelope.request.intent.slots;
@@ -43,8 +43,8 @@ return handlerInput.responseBuilder
 
 const ObtenerProyectosIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'ObtenerProyectosIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'ObtenerProyectosIntent';
     },
     handle(handlerInput) {
         const speakOutput = obtenerProyectos();
@@ -56,8 +56,8 @@ const ObtenerProyectosIntentHandler = {
 
 const AgregarTareaIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AgregarTareaIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'AgregarTareaIntent';
     },
     handle(handlerInput) {
         const { nombreProyecto, tarea } = handlerInput.requestEnvelope.request.intent.slots;
@@ -81,8 +81,8 @@ return handlerInput.responseBuilder
 
 const RecordatorioIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RecordatorioIntent';
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' &&
+            Alexa.getIntentName(handlerInput.requestEnvelope) === 'RecordatorioIntent';
     },
     handle(handlerInput) {
         const { nombreProyecto } = handlerInput.requestEnvelope.request.intent.slots;
@@ -122,8 +122,9 @@ const ErrorHandler = {
     },
     handle(handlerInput, error) {
         console.error(Error handled: ${ error.message });
+        const speakOutput = 'Lo siento, ocurrió un error. Por favor, inténtalo de nuevo.';
         return handlerInput.responseBuilder
-            .speak('Lo siento, ocurrió un error. Por favor, inténtalo de nuevo.')
+            .speak(speakOutput)
             .getResponse();
     }
 };
