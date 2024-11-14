@@ -64,14 +64,14 @@ const AgregarTareaIntentHandler = {
         const proyecto = proyectos.find(proy => proy.nombre === nombreProyecto.value);
 
         if (proyecto) {
-            proyecto.tareas += , ${ tarea.value };
-            const speakOutput = La tarea ${ tarea.value
-} ha sido agregada al proyecto ${ nombreProyecto.value }.;
+            proyecto.tareas += `, ${ tarea.value }`;
+            const speakOutput = `La tarea ${ tarea.value
+} ha sido agregada al proyecto ${ nombreProyecto.value }`.;
 return handlerInput.responseBuilder
     .speak(speakOutput)
     .getResponse();
         } else {
-    const speakOutput = No se encontró un proyecto llamado ${ nombreProyecto.value }.;
+    const speakOutput = `No se encontró un proyecto llamado ${ nombreProyecto.value }.`;
     return handlerInput.responseBuilder
         .speak(speakOutput)
         .getResponse();
@@ -89,13 +89,13 @@ const RecordatorioIntentHandler = {
         const proyecto = proyectos.find(proy => proy.nombre === nombreProyecto.value);
 
         if (proyecto) {
-            const speakOutput = El proyecto ${ proyecto.nombre
-} tiene fecha límite el ${ proyecto.fechaLimite }. ¡Recuerda completar tus tareas!;
+            const speakOutput =` El proyecto ${ proyecto.nombre
+} tiene fecha límite el ${ proyecto.fechaLimite }. ¡Recuerda completar tus tareas!`;
 return handlerInput.responseBuilder
     .speak(speakOutput)
     .getResponse();
         } else {
-    const speakOutput = No se encontró un proyecto llamado ${ nombreProyecto.value }.;
+    const speakOutput =` No se encontró un proyecto llamado ${ nombreProyecto.value }.`;
     return handlerInput.responseBuilder
         .speak(speakOutput)
         .getResponse();
@@ -121,7 +121,7 @@ const ErrorHandler = {
         return true;
     },
     handle(handlerInput, error) {
-        console.error(Error handled: ${ error.message });
+        console.error(`Error handled: ${ error.message }`);
         const speakOutput = 'Lo siento, ocurrió un error. Por favor, inténtalo de nuevo.';
         return handlerInput.responseBuilder
             .speak(speakOutput)
